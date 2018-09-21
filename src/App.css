@@ -2,3 +2,13 @@
   display: flex;
   padding: 16px;
 }
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingText {
+  font-size: 48px;
+}
