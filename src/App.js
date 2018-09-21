@@ -3,6 +3,8 @@ import ApolloClient from 'apollo-boost';
 import gql from 'graphql-tag';
 import Movie from './components/Movie';
 
+import './App.css';
+
 class App extends Component {
 
   constructor(props){
@@ -20,7 +22,7 @@ class App extends Component {
     graphQlClient.query({
       query: gql`
         {
-          movies(query: "id:5") {
+          movies(query: "id:1") {
             title
             id
             poster_path
@@ -33,7 +35,7 @@ class App extends Component {
   render() {
     const { movies } = this.state;
     return (
-      <div>
+      <div className="appContainer">
         {
           movies.map(movie =>
             <Movie
