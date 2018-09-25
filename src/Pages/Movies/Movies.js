@@ -1,29 +1,25 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { graphql } from 'react-apollo';
 
 import Movie from '../../components/Movie';
 import './styles.css';
 
-const Movies = ({ focusedElementId }) => (
-  <Query
-    query={gql`
-      {
-        movies(query: "id:1") {
-          title
-          id
-          poster_path
-        }
-      }
-    `}
-  >
-    {({ loading, error, data }) => (
-      loading ? renderLoading() :
-      error ? renderError() :
+const query = gql`{
+  movies_by_genre(id:35) {
+    title
+    id
+    poster_path
+  }
+}`;
+
+const Movies = ({ focusedElementId, data }) => (
+    data.loading ? renderLoading() :
+    data.error ? renderError() :
 
       <div className="appContainer">
         {
-          data.movies.map(movie =>
+          data.movies_by_genre.map(movie =>
             <Movie
               key={movie.id}
               title={movie.title}
@@ -33,8 +29,6 @@ const Movies = ({ focusedElementId }) => (
           )
         }
       </div>
-    )}
-  </Query>
 );
 
 const renderLoading = () => (
@@ -45,4 +39,4 @@ const renderLoading = () => (
 
 const renderError = () => <p> Error fetching Movies ...</p>;
 
-export default Movies;
+export default graphql(query)(Movies);
