@@ -17,6 +17,7 @@ class App extends Component {
 
   render() {
     return (
+      // We gain Caching by using Query component
       <Query
         query={gql`
           {
