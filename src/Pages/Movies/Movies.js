@@ -2,10 +2,10 @@ import React from 'react';
 import { Query } from 'react-apollo';
 
 import { getMovieGenres, getMovieByGenre } from '../../graphql/queries';
-import Movie from '../../components/Movie';
 import Loading from '../../components/Loading';
 
 import './styles.css';
+import GenreLane from '../../components/GenreLane/GenreLane';
 
 
 const Movies = ({ focusedElementId }) => (
@@ -28,18 +28,11 @@ const Movies = ({ focusedElementId }) => (
 
             error ? renderError() :
 
-              <div className="appContainer">
-                {
-                  data.movies_by_genre.map(movie =>
-                    <Movie
-                      key={movie.id}
-                      title={movie.title}
-                      image={movie.poster_path}
-                      isFocused={focusedElementId === movie.id}
-                    />
-                  )
-                }
-              </div>
+            <GenreLane
+              focusedElementId={focusedElementId}
+              genre={genre.name}
+              movies={data.movies_by_genre}
+            />
           )}
         </Query>
       )
@@ -47,39 +40,6 @@ const Movies = ({ focusedElementId }) => (
 
   </Query>
 );
-
-
-// const Movies = ({ focusedElementId, data, client }) => {
-//   console.log('APOLLO CLIENT', client);
-//   let cachedData;
-//   try {
-//     cachedData = client.readQuery({
-//       query
-//     });
-//   } catch (error) {
-//     console.log('ERRROR');
-//   }
-//   if (cachedData) {
-//     console.log('CACHED DATA', cachedData.movies_by_genre);
-//   }
-
-//   return(
-//     data.loading ? <Loading /> :
-//     data.error ? renderError() :
-//     <div className="appContainer">
-//       {
-//         data.movies_by_genre.map(movie =>
-//           <Movie
-//             key={movie.id}
-//             title={movie.title}
-//             image={movie.poster_path}
-//             isFocused={focusedElementId === movie.id}
-//           />
-//         )
-//       }
-//     </div>
-//   );
-// }
 
 const renderError = () => <p> Error fetching Movies ...</p>;
 
