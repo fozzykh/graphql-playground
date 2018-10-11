@@ -8,7 +8,7 @@ import './styles.css';
 import GenreLane from '../../components/GenreLane/GenreLane';
 
 
-const Movies = ({ focusedElementId }) => (
+const Movies = ({ focusedElementId, onGenrePress }) => (
   <Query query={getMovieGenres}>
     {({ loading, error, data }) => {
       console.log('DATA', data);
@@ -28,11 +28,16 @@ const Movies = ({ focusedElementId }) => (
 
             error ? renderError() :
 
-            <GenreLane
-              focusedElementId={focusedElementId}
-              genre={genre.name}
-              movies={data.movies_by_genre}
-            />
+            <div>
+              <GenreLane
+                focusedElementId={focusedElementId}
+                genre={genre.name}
+                movies={data.movies_by_genre}
+              />
+              <button onClick={ () => onGenrePress(genre.id)}>
+                See all {genre.name}
+              </button>
+            </div>
           )}
         </Query>
       )
